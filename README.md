@@ -1,7 +1,9 @@
 # Introduction
 
-![CIFAR10 samples.](/assets/cifar10_mar_scf.png "Random samples of our <em>mAR-SCF</em> model on CIFAR10.")
-![CIFAR10 samples.](/assets/imagenet32_mar_scf.png "Random samples of our <em>mAR-SCF</em> model on ImageNet (32x32).")
+<p align="center">
+  <img width="200" height="200" src="/assets/cifar10_mar_scf.png">
+  <img width="200" height="200" src="/assets/imagenet32_mar_scf.png">
+</p>
 
 This repository is the PyTorch implementation of the paper:
 
