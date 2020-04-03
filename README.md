@@ -11,8 +11,20 @@ This repository is the PyTorch implementation of the paper:
 
 [Shweta Mahajan<sup>\*</sup>](https://www.visinf.tu-darmstadt.de/team_members/smahajan/smahajan.en.jsp), [Apratim Bhattacharyya<sup>\*</sup>](https://www.mpi-inf.mpg.de/departments/computer-vision-and-machine-learning/people/apratim-bhattacharyya/), [Mario Fritz](https://scalable.mpi-inf.mpg.de/), [Bernt Schiele](https://www.mpi-inf.mpg.de/departments/computer-vision-and-machine-learning/people/bernt-schiele/), [Stefan Roth](https://www.visinf.tu-darmstadt.de/team_members/sroth/sroth.en.jsp)
 
-<sup>\*</sup> <em>Authors contributed equally.</em>.
+<sup>\*</sup> <em>Authors contributed equally.</em>
 
-# Requirements
+# Getting started
 
-Requires Python >= 3.5. Please run `requirements.py` to check if all required packages are installed.
+This code has been developed under Python 3.5, Pytorch 1.0.0 and CUDA 9.0.
+
+<ol>
+	<li>Please run `requirements.py` to check if all required packages are installed.</li> 
+	<li>The datasets used in this project are the following,
+		<ul>
+		<li>MNIST (available at torchvision.datasets)</li>
+		<li>CIFAR10 (available at torchvision.datasets)</li>
+		</ul>
+	</li> 
+</ol>
+
+
