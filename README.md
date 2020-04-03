@@ -17,14 +17,11 @@ This repository is the PyTorch implementation of the paper:
 
 This code has been developed under Python 3.5, Pytorch 1.0.0 and CUDA 9.0.
 
-<ol>
-	<li>Please run `requirements.py` to check if all required packages are installed.</li> 
-	<li>The datasets used in this project are the following,
-		<ul>
-		<li>MNIST (available at torchvision.datasets)</li>
-		<li>CIFAR10 (available at torchvision.datasets)</li>
-		</ul>
-	</li> 
-</ol>
+
+1. Please run `requirements.py` to check if all required packages are installed.
+2. The datasets used in this project are the following,
+	- MNIST (available at torchvision.datasets)
+	- CIFAR10 (available at torchvision.datasets)
+
 
 
