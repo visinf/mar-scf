@@ -1,7 +1,4 @@
 from __future__ import print_function
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
 import argparse
 import sys
 import os
@@ -172,6 +169,8 @@ class MarScfFlow(nn.Module):
 
 
 def save_samples( model, filename, samples ):
+	if not os.path.exists('./samples/'):
+		os.makedirs('./samples/')
 	rev = model(None,None,reverse=True, eps_std=1.0)
 	rev[torch.isnan(rev)] = -0.5
 	rev = torch.clamp(rev, -0.5, 0.5)
@@ -224,6 +223,8 @@ if __name__ == "__main__":
 	train_loader, test_loader, image_shape = get_dataset( dataset_name, batch_size)
 	mar_scf = MarScfFlow(batch_size//(num_gpu if num_gpu > 0 else 1), image_shape, coupling, L, K, C)#.to(device)
 
+	if not os.path.exists('./checkpoints/'):
+		os.makedirs('./checkpoints/')
 
 	if not from_checkpoint:
 		if num_gpu > 0:
