@@ -22,6 +22,7 @@ This code has been developed under Python 3.5, Pytorch 1.0.0 and CUDA 9.0.
 2. The datasets used in this project are the following,
 	- MNIST (available at torchvision.datasets)
 	- CIFAR10 (available at torchvision.datasets)
+	- ImageNet (available [here](http://image-net.org/small/download.php))
 
 
 
