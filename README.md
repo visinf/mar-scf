@@ -47,8 +47,12 @@ Samples and test results in bits/dim can be obtained using `marscf_main.py` and 
 
 Note, that checkpoints (and sample) files follow the following format,
 
-	marscf_<dataset_name>_<coupling>_<K>_<C>	
+	marscf_<dataset_name>_<coupling>_<K>_<C>.pt	
+
+Checkpoints can be obtained [here](https://drive.google.com/drive/folders/1HAFg6qAv_gbxUGgRN3cLq1sIaKbUeGQ9?usp=sharing).
 
 # Acknowledgement
+
+The code for affine couplings is based on [glow-pytorch](https://github.com/chaiyujin/glow-pytorch) , MixLogCDF couplings [flowplusplus](https://github.com/chrischute/flowplusplus) and Convolutional LSTM [pytorch_convolutional_rnn](https://github.com/kamo-naoyuki/pytorch_convolutional_rnn).
 
 # Citation
