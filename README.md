@@ -36,6 +36,7 @@ The script `marscf_main.py` is used for training. The important keyword argument
 - C : Number of channels per coupling.
 
 Example usage to train a model on CIFAR10 with mixlogcdf couplings,
+
 	python marscf_main.py --dataset_name cifar10 --coupling mixlogcdf --batch_size 64 --K 4 --C 96
 
 Note, the number of GPUs used can be controlled by with the flag `CUDA_VISIBLE_DEVICES`, will default to CPU if no cuda devices are available.
