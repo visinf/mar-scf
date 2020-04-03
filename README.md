@@ -1,8 +1,8 @@
 # Introduction
 
 <p align="center">
-  <img width="320" height="200" src="/assets/cifar10_mar_scf.png" hspace="100">
-  <img width="320" height="200" src="/assets/imagenet32_mar_scf.png" hspace="100">
+  <img width="320" height="200" src="/assets/cifar10_mar_scf.png" hspace="30">
+  <img width="320" height="200" src="/assets/imagenet32_mar_scf.png" hspace="30">
 </p>
 
 This repository is the PyTorch implementation of the paper:
