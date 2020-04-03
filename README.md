@@ -7,9 +7,12 @@
 
 This repository is the PyTorch implementation of the paper:
 
+<p align="center">
 **Normalizing Flows with Multi-Scale Autoregressive Priors (CVPR 2020)** 
 
 [Shweta Mahajan<sup>\*</sup>](https://www.visinf.tu-darmstadt.de/team_members/smahajan/smahajan.en.jsp), [Apratim Bhattacharyya<sup>\*</sup>](https://www.mpi-inf.mpg.de/departments/computer-vision-and-machine-learning/people/apratim-bhattacharyya/), [Mario Fritz](https://scalable.mpi-inf.mpg.de/), [Bernt Schiele](https://www.mpi-inf.mpg.de/departments/computer-vision-and-machine-learning/people/bernt-schiele/), [Stefan Roth](https://www.visinf.tu-darmstadt.de/team_members/sroth/sroth.en.jsp)
+
+</p>
 
 
 # Requirements
