@@ -55,4 +55,11 @@ Checkpoints can be obtained [here](https://drive.google.com/drive/folders/1HAFg6
 
 The code for affine couplings is based on the [glow-pytorch](https://github.com/chaiyujin/glow-pytorch) repo, MixLogCDF couplings on the [flowplusplus](https://github.com/chrischute/flowplusplus) repo and Convolutional LSTM on the [pytorch_convolutional_rnn](https://github.com/kamo-naoyuki/pytorch_convolutional_rnn) repo.
 
-# Citation
+# Bibtex
+
+	@inproceedings{apratim20cvpr,
+	title = {Normalizing Flows with Multi-scale Autoregressive Priors},
+	author = {Shweta Mahajan and Apratim Bhattacharyya and Mario Fritz and Stefan Roth and Bernt Schiele},
+	booktitle = {IEEE Conference on Computer Vision and Pattern Recognition},
+	year = {2020},
+	}
