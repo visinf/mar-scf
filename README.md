@@ -53,6 +53,6 @@ Checkpoints can be obtained [here](https://drive.google.com/drive/folders/1HAFg6
 
 # Acknowledgement
 
-The code for affine couplings is based on [glow-pytorch](https://github.com/chaiyujin/glow-pytorch) , MixLogCDF couplings [flowplusplus](https://github.com/chrischute/flowplusplus) and Convolutional LSTM [pytorch_convolutional_rnn](https://github.com/kamo-naoyuki/pytorch_convolutional_rnn).
+The code for affine couplings is based on the [glow-pytorch](https://github.com/chaiyujin/glow-pytorch) repo, MixLogCDF couplings on the [flowplusplus](https://github.com/chrischute/flowplusplus) repo and Convolutional LSTM on the [pytorch_convolutional_rnn](https://github.com/kamo-naoyuki/pytorch_convolutional_rnn) repo.
 
 # Citation
