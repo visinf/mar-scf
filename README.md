@@ -59,7 +59,7 @@ The code for affine couplings is based on the [glow-pytorch](https://github.com/
 
 	@inproceedings{marscf20cvpr,
 	title = {Normalizing Flows with Multi-scale Autoregressive Priors},
-	author = {Shweta Mahajan and Apratim Bhattacharyya and Mario Fritz and Stefan Roth and Bernt Schiele},
+	author = {Shweta Mahajan and Apratim Bhattacharyya and Mario Fritz and Bernt Schiele and Stefan Roth},
 	booktitle = {IEEE Conference on Computer Vision and Pattern Recognition},
 	year = {2020},
 	}
