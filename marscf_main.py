@@ -27,10 +27,10 @@ from utils import get_dataset
 
 
 class FlowStep(nn.Module):
-	def __init__(self,in_channels, out_channels, hidden_channels,actnorm_scale,coupling):
+	def __init__(self,in_channels, out_channels, hidden_channels,actnorm_scale,coupling_type):
 		super(FlowStep, self).__init__()
-		self.coupling = coupling 
-		if coupling == 'mixlogcdf':
+		self.coupling_type = coupling_type 
+		if coupling_type == 'mixlogcdf':
 			self.coupling = MixLogCDFCoupling(in_channels, hidden_channels, num_blocks=10, num_components=32, drop_prob=0.2)
 			self.tuple_flip = TupleFlip()
 		else:
@@ -43,12 +43,12 @@ class FlowStep(nn.Module):
 		x, logdet = self.actnormlayer(x,logdet,reverse)
 		x, logdet = self.invert_1x1_layer(x, logdet,reverse)
 		x, logdet = self.coupling(x, logdet,reverse)
-		if coupling == 'mixlogcdf':
+		if self.coupling_type == 'mixlogcdf':
 			x, logdet = self.tuple_flip(x, logdet,reverse)
 		return x, logdet
 
 	def reverse_sampling(self,x,logdet=0.,reverse=True):
-		if coupling == 'mixlogcdf':
+		if self.coupling_type == 'mixlogcdf':
 			x, logdet = self.tuple_flip(x, logdet,reverse)
 		x, logdet = self.coupling(x, logdet,reverse)
 		x, logdet = self.invert_1x1_layer(x, logdet,reverse)
@@ -64,7 +64,7 @@ class FlowStep(nn.Module):
 
 
 class FlowNet(nn.Module):
-	def __init__(self, batch_size, image_shape, hidden_channels, K, L, actnorm_scale=1.0,coupling='nlsq'):
+	def __init__(self, batch_size, image_shape, hidden_channels, K, L, coupling_type, actnorm_scale=1.0):
 		super(FlowNet, self).__init__()
 		self.layers = nn.ModuleList()
 		self.output_shapes = []
@@ -82,7 +82,8 @@ class FlowNet(nn.Module):
 			# 2. K FlowStep
 			for _ in range(K):
 				self.layers.append(
-					FlowStep(in_channels=C,out_channels=C, hidden_channels=hidden_channels, actnorm_scale=actnorm_scale, coupling=coupling))
+					FlowStep(in_channels=C,out_channels=C, hidden_channels=hidden_channels, 
+						actnorm_scale=actnorm_scale, coupling_type=coupling_type))
 				self.output_shapes.append(
 					[-1, C, H, W])
 			# 3. Split2d
@@ -124,10 +125,10 @@ class FlowNet(nn.Module):
 
 
 class MarScfFlow(nn.Module):
-	def __init__(self,batch_size,image_shape,coupling, L, K, C):
+	def __init__(self,batch_size,image_shape,coupling_type, L, K, C):
 		super().__init__()
 		#L = 3
-		self.flow = FlowNet( batch_size, image_shape = image_shape, hidden_channels=C, K=K, L=L, coupling=coupling )
+		self.flow = FlowNet( batch_size, image_shape = image_shape, hidden_channels=C, K=K, L=L, coupling_type=coupling_type )
 		self.batch_size = batch_size	
 
 	def forward(self, x=None, z=None, eps_std=None, reverse=False):
@@ -180,7 +181,7 @@ def save_samples( model, filename, samples ):
 def test_model( model, test_loader, num_gpu ):	
 	with torch.no_grad():
 		all_nlls = []
-		for i, data in tqdm(enumerate(test_loader, 0)):
+		for i, data in enumerate(test_loader, 0):
 			data_im = data[0]
 			if num_gpu > 0:
 				data_im = data_im.cuda()
@@ -194,24 +195,26 @@ def test_model( model, test_loader, num_gpu ):
 if __name__ == "__main__":
 
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--dataset_name', default='cifar10', help='Name of dataset in [cifar10,mnist,imagenet_32,imagenet_64].')
-	parser.add_argument('--coupling', default='affine', help='Type of coupling in [affine,mixlogcdf].')
-	parser.add_argument('--batch_size', type=int, default=128, help='Batch Size.')
-	parser.add_argument('--warm_up', type=int, default=10000, help='# of warmup steps.')
-	parser.add_argument('--L', type=int, default=3, help='# of levels.')
-	parser.add_argument('--K', type=int, default=32, help='# of layers per level.')
-	parser.add_argument('--C', type=int, default=512, help='# of channels per layer.')
+	parser.add_argument('--dataset_name', default='cifar10', type=str, help='Name of dataset in [cifar10,mnist,imagenet_32,imagenet_64].')
+	parser.add_argument('--data_root', default=None, type=str, help='Name of dataset in [cifar10,mnist,imagenet_32,imagenet_64].')
+	parser.add_argument('--coupling', default='affine', type=str, help='Type of coupling in [affine,mixlogcdf].')
+	parser.add_argument('--batch_size', default=128, type=int, help='Batch Size.')
+	parser.add_argument('--warm_up', default=10000, type=int, help='# of warmup steps.')
+	parser.add_argument('--L', default=3, type=int, help='# of levels.')
+	parser.add_argument('--K', default=32, type=int,  help='# of layers per level.')
+	parser.add_argument('--C', default=512, type=int,  help='# of channels per layer.')
 	parser.add_argument('--from_checkpoint', action='store_true', help='Evaluate Checkpoint.')
 	args = parser.parse_args()
-	dataset_name = args.dataset_name;
-	coupling = args.coupling;
-	batch_size = args.batch_size;
+	dataset_name = args.dataset_name
+	data_root = args.data_root
+	coupling_type = args.coupling
+	batch_size = args.batch_size
 	warm_up = args.warm_up
 	L = args.L
 	K = args.K
 	C = args.C
 	from_checkpoint = args.from_checkpoint
-	setting_id = 'marscf_' + str(dataset_name) + '_' + str(coupling) + '_' + str(K) + '_' + str(C)
+	setting_id = 'marscf_' + str(dataset_name) + '_' + str(coupling_type) + '_' + str(K) + '_' + str(C)
 
 	if torch.cuda.is_available():
 		num_gpu = torch.cuda.device_count()
@@ -220,27 +223,26 @@ if __name__ == "__main__":
 
 	print('Num of GPUs found: ', num_gpu)
 
-	train_loader, test_loader, image_shape = get_dataset( dataset_name, batch_size)
-	mar_scf = MarScfFlow(batch_size//(num_gpu if num_gpu > 0 else 1), image_shape, coupling, L, K, C)#.to(device)
+	train_loader, test_loader, image_shape = get_dataset( dataset_name, batch_size, data_root)
+	mar_scf = MarScfFlow(batch_size//(num_gpu if num_gpu > 0 else 1), image_shape, coupling_type, L, K, C)#.to(device)
 
 	if not os.path.exists('./checkpoints/'):
 		os.makedirs('./checkpoints/')
 
 	if not from_checkpoint:
 		if num_gpu > 0:
-			mar_scf = nn.DataParallel(mar_scf).cuda()
-		optimizerG = optim.Adamax(mar_scf.parameters(),lr=0.0008)
+			mar_scf = nn.DataParallel(mar_scf, output_device=2).cuda()
+		optimizerG = optim.Adamax(mar_scf.parameters(),lr=0.0008)#.cuda(2)
 		scheduler = sched.LambdaLR(optimizerG, lambda s: min(1., s / warm_up))
 		global_step = 0
 
 		epochs = 100000
-		sample_itr_interval = 100
 		test_epoch_interval = 1
 		best_test_nll = 9999999.
 
 		for epoch in range(epochs):
-
-			for i, data in tqdm(enumerate(train_loader, 0)):
+			train_bar = tqdm(train_loader)
+			for data in train_bar:
 
 				optimizerG.zero_grad()
 				data_im = data[0]
@@ -255,35 +257,37 @@ if __name__ == "__main__":
 				scheduler.step(global_step)
 				global_step += batch_size
 
-				if i%sample_itr_interval == 0:
-					tqdm.write('Epoch: ' + str(epoch) + ' loss: ' + str(loss.item()))
+				train_bar.set_description('Train NLL (bits/dim) %.2f | Epoch %d -- Iteration ' % (loss.item(),epoch))
 					
 			if epoch % test_epoch_interval == 0:
 
-				curr_test_nll = test_model( mar_scf, test_loader )
+				tqdm.write('Evaluating model .... ')
+
+				curr_test_nll = test_model( mar_scf, test_loader, num_gpu )
 
 				if not math.isnan(curr_test_nll):
-					best_test_nll = min(best_test_nll,curr_test_nll)
-					tqdm.write('Best Test NLL (Bits per dimension): ', best_test_nll)
-
-				if save_checkpoint:
-					torch.save(mar_scf, os.path.join('./checkpoints/', setting_id + '.pt'))
+					if curr_test_nll < best_test_nll:
+						torch.save(mar_scf.module.state_dict(), os.path.join('./checkpoints/', setting_id + '.pt'))
+						best_test_nll = curr_test_nll
+				
+				tqdm.write('Best Test NLL (bits/dim) at Epoch %d -- %.3f \n' % (epoch,best_test_nll))
+					
 
 	else:
-		#try:
-		state_dict = torch.load( os.path.join('./checkpoints/', setting_id +'.pt'))
-		mar_scf.load_state_dict(state_dict)
-		print('Checkpoint loaded!')
+		try:
+			state_dict = torch.load( os.path.join('./checkpoints/', setting_id +'.pt'))
+			mar_scf.load_my_state_dict(state_dict)
+			print('Checkpoint loaded!')
+		except Exception:
+			print('Error loading checkpoint!')
+			sys.exit(0)	
+
 		if num_gpu > 0:
 			mar_scf = nn.DataParallel(mar_scf).cuda()
-		#torch.save(mar_scf.state_dict(),'./checkpoints/marscf_' + str(dataset_name) + '_' + str(coupling) + '_' + str(K) + '_' + str(C)+'.pt')
-		#sys.exit(0)
-		#except Exception:
-		#	print('Error loading checkpoint!')
-		#	sys.exit(0)
-
+		
+		print('Evaluating model on checkpoint .... ')
 		curr_test_nll = test_model( mar_scf, test_loader, num_gpu )
-		print('Test NLL: ', curr_test_nll)
+		print('Test NLL (bits/dim):  %.3f' % curr_test_nll)
 		save_samples( mar_scf, os.path.join('./samples/', setting_id + '.png'), samples=batch_size)
 
 				

@@ -4,6 +4,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 
+import torchvision.transforms.functional as TF
+
 def cpd_sum(tensor, dim=None, keepdim=False):
 	if dim is None:
 		# sum up all dim

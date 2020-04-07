@@ -2,7 +2,7 @@ import sys
 import pkg_resources
 from pkg_resources import DistributionNotFound, VersionConflict
 
-assert sys.version_info >= (3, 5), 'Incorrect Python verion. Requires Python >= 3.5'
+assert sys.version_info >= (3, 5), 'Insufficent Python version. Requires Python >= 3.5'
 
 print('Python version requirement satisfied!')
 

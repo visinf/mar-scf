@@ -4,7 +4,7 @@ import torch.nn as nn
 
 from mar_prior.lstm import ConvSeqEncoder
 
-class ChannelPriorUniScaleEff(nn.Module):
+class ChannelPriorUniScale(nn.Module):
 	def __init__(self,batch_size,nc,height,width,level,tot_levels,hidden_size=32, num_layers=1, dp_rate=0.2, plot=False):
 		super().__init__()
 		self.batch_size = batch_size
@@ -159,7 +159,7 @@ class ChannelPriorMultiScale(nn.Module):
 		super().__init__()
 
 		if not mog:
-			self.prior_list = [ChannelPriorUniScaleEff(batch_size,nc,height,width,level,levels,hidden_size=hidden_size,
+			self.prior_list = [ChannelPriorUniScale(batch_size,nc,height,width,level,levels,hidden_size=hidden_size,
 				num_layers=num_layers,dp_rate=dp_rate, plot = (True if level == 2 else False)) 
 			for level in range(1,levels+1)]
 		else:

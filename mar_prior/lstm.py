@@ -23,7 +23,7 @@ class ConvSeqEncoder(nn.Module):
 		self.dropout = dropout
 		self.conv_dropout = nn.Dropout2d(dropout)
 
-	def td_conv(self,x,conv_fn,out_ch,dropout_flag=False, attn_layer=None):
+	def td_conv(self,x,conv_fn,out_ch):
 		x = x.contiguous()
 		batch_size = x.size(0)
 		time_steps = x.size(1)
@@ -34,14 +34,10 @@ class ConvSeqEncoder(nn.Module):
 		x = x.view(batch_size,time_steps,out_ch,x.size(2),x.size(3))
 		return x
 		
-	def forward_GRU(self, x, lengths, hidden):
-		x2 = self.td_conv(x,self.conv_embed,self.embed_ch,dropout_flag=True,attn_layer=None)
+	def forward(self, x, lengths, hidden = None):
+		x2 = self.td_conv(x,self.conv_embed,self.embed_ch)
 		
 		outputs, hidden = self.lstm(x2, hidden)
 			
 		output = self.td_conv(outputs,self.conv_out1,self.out_ch)
 		return output, hidden
-
-	def forward(self, x, lengths, hidden = None):
-		out, hidden = self.forward_GRU(x, lengths, hidden)
-		return out, hidden
