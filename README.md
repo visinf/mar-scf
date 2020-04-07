@@ -39,7 +39,7 @@ Example usage to train a model on CIFAR10 with MixLogCDF couplings,
 
 	python marscf_main.py --dataset_name cifar10 --coupling mixlogcdf --batch_size 64 --K 4 --C 96
 
-Note, the number of GPUs used can be controlled by with the flag `CUDA_VISIBLE_DEVICES`, will default to CPU if no cuda devices are available.
+Note, the number of GPUs used can be controlled with the flag `CUDA_VISIBLE_DEVICES`, will default to CPU if no cuda devices are available.
 
 # Generation and Validation
 
@@ -49,7 +49,7 @@ Note, that checkpoints (and sample) files follow the following format,
 
 	marscf_<dataset_name>_<coupling>_<K>_<C>.pt	
 
-Checkpoints can be obtained [here](https://drive.google.com/drive/folders/1HAFg6qAv_gbxUGgRN3cLq1sIaKbUeGQ9?usp=sharing).
+Checkpoints can be obtained [here](https://drive.google.com/drive/folders/1HAFg6qAv_gbxUGgRN3cLq1sIaKbUeGQ9?usp=sharing) (will be updated).
 
 # Acknowledgement
 
