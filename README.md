@@ -49,7 +49,7 @@ Note, that checkpoints (and sample) files follow the following format,
 
 	marscf_<dataset_name>_<coupling>_<K>_<C>.pt	
 
-Checkpoints can be obtained [here](https://drive.google.com/drive/folders/1HAFg6qAv_gbxUGgRN3cLq1sIaKbUeGQ9?usp=sharing) (will be updated). Please note that the checkpoints available here for CIFAR10 with MixLogCDF couplings have been trained for longer than reported in the paper, which leads to improved results. E.g. the checkpoint with 256 channels and MixLogCDF couplings have been trained for ~1000 epochs leading to a test NLL (bits/dim) of 3.22 bits/dim and FID of 33.6 (vs 3.24 bits/dim and FID of 41.9 at ~400 epoch as reported in the paper for fair comparison to Residual Flows).
+Checkpoints can be obtained [here](https://drive.google.com/drive/folders/1HAFg6qAv_gbxUGgRN3cLq1sIaKbUeGQ9?usp=sharing) (will be updated). Please note that the checkpoints available here for CIFAR10 with MixLogCDF couplings have been trained for longer than reported in the paper, which leads to improved results. E.g. the checkpoint with 256 channels and MixLogCDF couplings have been trained for ~1000 epochs leading to a test NLL (bits/dim) of 3.22 bits/dim and FID of 33.6 (vs 3.24 bits/dim and FID of 41.9 at ~400 epoch as reported in the paper for fair comparison to Residual Flows). 
 
 # Acknowledgement
 
